@@ -1,43 +1,33 @@
+const loader = document.getElementById('loader');
+
 let body = document.body;
 let url = window.location.toString();
+let name = 'GalinaZhigalova';
+let user = `https://api.github.com/users/${name}`;
+let date = new Date();
 
-	const getNameFromUrl = (url) => {
-	  let getUrl = url.split('=');
-	  let name = getUrl[1];
-	  if(name == undefined) {
-  	name = 'GalinaZhigalova';
-	  }
-	return name;
-	}
+setTimeout(function(){
+	loader.classList.add('none');
+}, 2000);
 
-	fetch(`https://api.github.com/users/${getNameFromUrl(url)}`)
-  	.then(res => res.json())
-	  .then(json => {
-	    console.log(json.avatar_url);
-	    console.log(json.name);
-     	console.log(json.bio);
-    	console.log(json.html_url);
+let getDate = new Promise((resolve, reject) => {
+	setTimeout(() => date ? resolve(document.body.append(`Текущая дата: ${Date()}`)) : reject('Ошибка.'), 2000)
+});
 
-	    let photo = new Image();
-    	photo.src = json.avatar_url;
-    	body.append(photo);
+let getUser = new Promise((resolve, reject) => {
+	setTimeout(() => user ? resolve(user) : reject('Имя не найдено.'), 3000)
+});
 
-    	let name = document.createElement('p');
-    	if (json.name != null) {
-    	name.innerHTML = json.name;
-    	} else {
-	    name.innerHTML = 'Информация недоступна';
-	    }
-	    body.append(name);
-    	name.addEventListener("click", () => window.location = 'https://webheroschool.github.io/GalinaZhigalova');
-
-     	let bio = document.createElement('p');
-    	if (json.bio != null) {
-    	bio.innerHTML = json.bio;
-     	} else {
-    	bio.innerHTML = 'Информация недоступна';
-    	}
-    	body.append(bio);
-	})
-
-	.catch(err => alert('Информация недоступна'));
+Promise.all([getUser, getDate])
+	.then(() => fetch(`${user} `))
+  .then(res => res.json())
+  .then(json => {
+  				let bio = document.createElement('p');
+          if (json.bio != null) {
+            bio.innerHTML = json.bio;
+        } else {
+            bio.innerHTML = 'Пользователь не найден.';
+        }
+    document.body.append(bio);
+   })
+   .catch(err => document.body.append('Пользователь не найден'));
