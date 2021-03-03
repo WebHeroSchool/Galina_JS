@@ -1,7 +1,7 @@
 let loader = document.getElementById('loader')
 let body = document.body;
 let params = new URLSearchParams(window.location.toString());
-let name = params.get('name') || 'GalinaZhigalova';
+let name = params.get('username') || 'GalinaZhigalova';
 let user = `https://api.github.com/users/${name}`;
 let date = new Date();
 console.log(user)
