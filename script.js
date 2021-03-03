@@ -1,7 +1,7 @@
-const loader = document.getElementById('loader')
+let loader = document.getElementById('loader')
 let body = document.body;
-let url = window.location.toString();
-let name = 'GalinaZhigalova';
+let params = new URLSearchParams(window.location.toString());
+let name = params.get('name') || 'GalinaZhigalova';
 let user = `https://api.github.com/users/${name}`;
 let date = new Date();
 console.log(user)
@@ -18,7 +18,7 @@ let getUser = new Promise((resolve, reject) => {
 });
 
 Promise.all([getUser, getDate])
-	.then(() => fetch(`${user} `))
+	.then(() => fetch(`https://api.github.com/users/${name}`))
   .then(res => res.json())
   .then(json => {
       console.log(json.avatar_url);
