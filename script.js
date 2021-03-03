@@ -1,5 +1,4 @@
 const loader = document.getElementById('loader');
-
 let body = document.body;
 let url = window.location.toString();
 let name = 'GalinaZhigalova';
@@ -8,6 +7,7 @@ let date = new Date();
 
 setTimeout(function(){
 	loader.classList.add('none');
+	body.style.backgroundColor= 'white';
 }, 2000);
 
 let getDate = new Promise((resolve, reject) => {
