@@ -1,13 +1,12 @@
-const loader = document.getElementById('loader');
+const loader = document.getElementById('loader')
 let body = document.body;
 let url = window.location.toString();
 let name = 'GalinaZhigalova';
 let user = `https://api.github.com/users/${name}`;
 let date = new Date();
-
+console.log(user)
 setTimeout(function(){
 	loader.classList.add('none');
-	body.style.backgroundColor= 'white';
 }, 2000);
 
 let getDate = new Promise((resolve, reject) => {
@@ -22,12 +21,30 @@ Promise.all([getUser, getDate])
 	.then(() => fetch(`${user} `))
   .then(res => res.json())
   .then(json => {
-  				let bio = document.createElement('p');
-          if (json.bio != null) {
-            bio.innerHTML = json.bio;
-        } else {
-            bio.innerHTML = 'Пользователь не найден.';
-        }
-    document.body.append(bio);
-   })
+      console.log(json.avatar_url);
+	    console.log(json.name);
+     	console.log(json.bio);
+    	console.log(json.html_url);
+
+  				let photo = new Image();
+    	photo.src = json.avatar_url;
+    	body.append(photo);
+
+    	let user = document.createElement('name');
+    	if (json.name != null) {
+    	user.innerHTML = json.name;
+    	} else {
+	    user.innerHTML = 'Пользователь не найден';
+	    }
+	    body.append(user);
+    	user.addEventListener("click", () => window.location = 'https://webheroschool.github.io/GalinaZhigalova');
+
+     	let bio = document.createElement('p');
+    	if (json.bio != null) {
+    	bio.innerHTML = json.bio;
+     	} else {
+    	bio.innerHTML = 'Информация недоступна';
+    	}
+    	body.append(bio);
+	})
    .catch(err => document.body.append('Пользователь не найден'));
