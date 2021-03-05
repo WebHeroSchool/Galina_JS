@@ -1,6 +1,6 @@
 let loader = document.getElementById('loader')
 let body = document.body;
-let params = new URLSearchParams(window.location.toString());
+let params = new URLSearchParams(window.location.search);
 let name = params.get('username') || 'GalinaZhigalova';
 let user = `https://api.github.com/users/${name}`;
 let date = new Date();
